@@ -93,6 +93,7 @@ footer{text-align:center;color:var(--mut);padding:30px 0 96px;font-size:14px}
     <div><label for="m">अन्य जानकारी</label><input id="m" placeholder="(वैकल्पिक)"></div>
   </div>
   <div class="err" id="e"></div>
+  <div class="note" id="wl"></div>
   <button class="btn sub2" onclick="bk()">WhatsApp पर अपॉइंटमेंट भेजें</button>
   <div class="note">बटन दबाने पर जानकारी WhatsApp में भर जाएगी — बस "Send" दबाएँ। हम कन्फर्म करने के लिए कॉल करेंगे।</div>
 </div>
@@ -127,7 +128,7 @@ function bk(){
  if(!n||!/^[6-9]\d{9}$/.test(p)||!d.value){e.style.display="block";e.textContent="कृपया नाम, सही 10 अंकों का मोबाइल नंबर और तारीख भरें।";return}
  e.style.display="none";
  var msg="नमस्ते, मैं अपॉइंटमेंट बुक करना चाहता/चाहती हूँ।\nनाम: "+n+"\nमोबाइल: "+p+"\nसमस्या: "+v("s")+"\nतारीख: "+d.value.split("-").reverse().join("/")+"\nसमय: "+v("t")+(v("m").trim()?"\nअन्य: "+v("m").trim():"");
- window.open("https://wa.me/"+NUM+"?text="+encodeURIComponent(msg),"_blank");
+ var u="https://wa.me/"+NUM+"?text="+encodeURIComponent(msg);var w=document.getElementById("wl");w.innerHTML='<a href="'+u+'" style="color:var(--gr);font-weight:700">अगर WhatsApp न खुले तो यहाँ दबाइए</a>';location.href=u;
 }
 </script>
 </body>
