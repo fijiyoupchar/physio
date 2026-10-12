@@ -94,7 +94,7 @@ footer{text-align:center;color:var(--mut);padding:30px 0 96px;font-size:14px}
   </div>
   <div class="err" id="e"></div>
   <div class="note" id="wl"></div>
-  <button class="btn sub2" onclick="bk()">WhatsApp पर अपॉइंटमेंट भेजें</button>
+  <a class="btn sub2" id="wb" href="#" target="_blank" rel="noopener" onclick="return bk(event)" style="display:block;text-align:center">WhatsApp पर अपॉइंटमेंट भेजें</a>
   <div class="note">बटन दबाने पर जानकारी WhatsApp में भर जाएगी — बस "Send" दबाएँ। हम कन्फर्म करने के लिए कॉल करेंगे।</div>
 </div>
 
@@ -123,12 +123,15 @@ var NUM="919204224887",d=document.getElementById("d");
 var t0=new Date();t0.setMinutes(t0.getMinutes()-t0.getTimezoneOffset());
 d.min=t0.toISOString().slice(0,10);d.value=d.min;
 function v(i){return document.getElementById(i).value}
-function bk(){
+function bk(ev){
  var n=v("n").trim(),p=v("p").trim(),e=document.getElementById("e");
- if(!n||!/^[6-9]\d{9}$/.test(p)||!d.value){e.style.display="block";e.textContent="कृपया नाम, सही 10 अंकों का मोबाइल नंबर और तारीख भरें।";return}
+ if(!n||!/^[6-9]\d{9}$/.test(p)||!d.value){e.style.display="block";e.textContent="कृपया नाम, सही 10 अंकों का मोबाइल नंबर और तारीख भरें।";return false}
  e.style.display="none";
  var msg="नमस्ते, मैं अपॉइंटमेंट बुक करना चाहता/चाहती हूँ।\nनाम: "+n+"\nमोबाइल: "+p+"\nसमस्या: "+v("s")+"\nतारीख: "+d.value.split("-").reverse().join("/")+"\nसमय: "+v("t")+(v("m").trim()?"\nअन्य: "+v("m").trim():"");
- var u="https://wa.me/"+NUM+"?text="+encodeURIComponent(msg);var w=document.getElementById("wl");w.innerHTML='<a href="'+u+'" style="color:var(--gr);font-weight:700">अगर WhatsApp न खुले तो यहाँ दबाइए</a>';location.href=u;
+ var u="https://wa.me/"+NUM+"?text="+encodeURIComponent(msg);
+ document.getElementById("wb").href=u;
+ document.getElementById("wl").innerHTML='<a href="'+u+'" target="_blank" rel="noopener" style="color:var(--gr);font-weight:700">अगर WhatsApp न खुले तो यहाँ दबाइए</a>';
+ return true;
 }
 </script>
 </body>
