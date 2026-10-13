@@ -62,6 +62,13 @@ footer{text-align:center;color:var(--mut);padding:30px 0 96px;font-size:14px}
 .fix a{flex:1;text-align:center;padding:12px;border-radius:99px;font-weight:700;text-decoration:none;color:#fff7e0;background:var(--gr)}
 .fix a+a{background:var(--ter)}
 @media(prefers-reduced-motion:reduce){.mand,.ph:before{animation:none}}
+.ok{display:none;position:fixed;inset:0;background:rgba(7,40,25,.75);z-index:99;align-items:center;justify-content:center;padding:18px}
+.okc{background:var(--card);border-radius:24px;max-width:420px;width:100%;padding:24px;text-align:center;border:2px solid var(--gold);max-height:92vh;overflow:auto}
+.okc .tick{width:64px;height:64px;border-radius:50%;background:var(--gr2);color:#fff;font-size:34px;display:flex;align-items:center;justify-content:center;margin:0 auto 8px}
+.okid{display:inline-block;background:var(--bg2);border:1px dashed var(--gr);border-radius:10px;padding:6px 16px;font-weight:700;font-size:20px;color:var(--gr);letter-spacing:.1em;margin:6px 0}
+.okd{background:var(--bg);border-radius:14px;padding:12px;margin:10px 0;text-align:left;line-height:1.9}
+.warn{background:#fff3cd;color:#5c4400;border-radius:12px;padding:10px 12px;font-size:14px;font-weight:600;text-align:left}
+.okc .btn{display:block;width:100%;margin-top:10px;text-align:center}
 </style>
 </head>
 <body>
@@ -121,6 +128,16 @@ footer{text-align:center;color:var(--mut);padding:30px 0 96px;font-size:14px}
 <div class="btns" style="margin-top:14px;gap:10px"><a class="btn b1" href="https://maps.google.com/?q=Nimiyaghat+Yogidera+Giridih+Jharkhand" target="_blank" rel="noopener">🗺️ Google Maps</a> <a class="btn" style="background:#e62117;color:#fff" href="https://www.youtube.com/channel/UCoAMNlzjiL7CeplsqF1zDRQ" target="_blank" rel="noopener">▶ YouTube</a> <a class="btn" style="background:linear-gradient(45deg,#f09433,#dc2743,#bc1888);color:#fff" href="https://www.instagram.com/boneandveincare003/" target="_blank" rel="noopener">📷 Instagram</a></div></div></section>
 </div>
 <footer>🌿 Healthy Bones • Healthy Life 🌿<br>© हड्डी एवं नस फिजियो उपचार केंद्र</footer>
+<div class="ok" id="ok"><div class="okc">
+<div class="tick">✓</div>
+<h2 style="margin:4px 0">अपॉइंटमेंट अनुरोध तैयार है</h2>
+<div>आपकी बुकिंग ID</div><div class="okid" id="okid"></div>
+<div class="okd" id="okd"></div>
+<div class="warn">⚠️ अपॉइंटमेंट तब पक्का माना जाएगा जब WhatsApp में खुले मैसेज पर <b>Send</b> दबाएँगे। उसके बाद क्लिनिक की टीम आपको WhatsApp या कॉल करके कन्फर्म करेगी।</div>
+<a class="btn sub2" id="okw" href="#" target="_blank" rel="noopener" style="background:linear-gradient(90deg,#0e6b3f,#2fa36b);color:#fff">WhatsApp खोलें / फिर से भेजें</a>
+<a class="btn b1" href="tel:+919204224887" style="background:#fff3d6">📞 क्लिनिक को कॉल करें</a>
+<a class="btn" href="#" onclick="cl();return false" style="color:var(--mut)">बंद करें</a>
+</div></div>
 <div class="fix"><a href="#book">📅 अपॉइंटमेंट</a><a href="tel:+919204224887">📞 कॉल</a></div>
 <script>
 var NUM="917643009782",d=document.getElementById("d");
@@ -131,12 +148,16 @@ function bk(ev){
  var n=v("n").trim(),p=v("p").trim(),e=document.getElementById("e");
  if(!n||!/^[6-9]\d{9}$/.test(p)||!d.value){e.style.display="block";e.textContent="कृपया नाम, सही 10 अंकों का मोबाइल नंबर और तारीख भरें।";return false}
  e.style.display="none";
- var msg="नमस्ते, मैं अपॉइंटमेंट बुक करना चाहता/चाहती हूँ।\nनाम: "+n+"\nमोबाइल: "+p+"\nसमस्या: "+v("s")+"\nतारीख: "+d.value.split("-").reverse().join("/")+"\nसमय: "+v("t")+(v("m").trim()?"\nअन्य: "+v("m").trim():"");
+ var id="HN-"+Math.random().toString(36).slice(2,6).toUpperCase();var msg="नमस्ते, मैं अपॉइंटमेंट बुक करना चाहता/चाहती हूँ।\nबुकिंग ID: "+id+"\nनाम: "+n+"\nमोबाइल: "+p+"\nसमस्या: "+v("s")+"\nतारीख: "+d.value.split("-").reverse().join("/")+"\nसमय: "+v("t")+(v("m").trim()?"\nअन्य: "+v("m").trim():"");
  var u="https://wa.me/"+NUM+"?text="+encodeURIComponent(msg);
  document.getElementById("wb").href=u;
  document.getElementById("wl").innerHTML='<a href="'+u+'" target="_blank" rel="noopener" style="color:var(--gr);font-weight:700">अगर WhatsApp न खुले तो यहाँ दबाइए</a>';
+ showOk(id,n,p,u);
  return true;
 }
+function esc(x){return String(x).replace(/[&<>"']/g,function(c){return"&#"+c.charCodeAt(0)+";"})}
+function cl(){document.getElementById("ok").style.display="none"}
+function showOk(id,n,p,u){document.getElementById("okid").textContent=id;document.getElementById("okd").innerHTML="<b>"+esc(n)+"</b><br>📞 "+esc(p)+"<br>🩺 "+esc(v("s"))+"<br>📅 "+d.value.split("-").reverse().join("/")+" • "+esc(v("t"));document.getElementById("okw").href=u;document.getElementById("ok").style.display="flex"}
 </script>
 <script>if("serviceWorker"in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})})}</script>
 </body>
