@@ -135,12 +135,13 @@ footer{text-align:center;color:var(--mut);padding:30px 0 96px;font-size:14px}
 <div class="okd" id="okd"></div>
 <div class="warn">⚠️ अपॉइंटमेंट तब पक्का माना जाएगा जब WhatsApp में खुले मैसेज पर <b>Send</b> दबाएँगे। उसके बाद क्लिनिक की टीम आपको WhatsApp या कॉल करके कन्फर्म करेगी।</div>
 <a class="btn sub2" id="okw" href="#" target="_blank" rel="noopener" style="background:linear-gradient(90deg,#0e6b3f,#2fa36b);color:#fff">WhatsApp खोलें / फिर से भेजें</a>
+<a id="okf" href="#" target="_blank" rel="noopener" style="display:block;margin-top:8px;font-size:13px;color:var(--mut);text-align:center">WhatsApp न खुले तो यहाँ दबाइए</a>
 <a class="btn b1" href="tel:+919204224887" style="background:#fff3d6">📞 क्लिनिक को कॉल करें</a>
 <a class="btn" href="#" onclick="cl();return false" style="color:var(--mut)">बंद करें</a>
 </div></div>
 <div class="fix"><a href="#book">📅 अपॉइंटमेंट</a><a href="tel:+919204224887">📞 कॉल</a></div>
 <script>
-var NUM="917643009782",d=document.getElementById("d");
+var MOB=/Android|iPhone|iPad|iPod/i.test(navigator.userAgent),NUM="917643009782",d=document.getElementById("d");
 var t0=new Date();t0.setMinutes(t0.getMinutes()-t0.getTimezoneOffset());
 d.min=t0.toISOString().slice(0,10);d.value=d.min;
 function v(i){return document.getElementById(i).value}
@@ -150,14 +151,14 @@ function bk(ev){
  e.style.display="none";
  var id="HN-"+Math.random().toString(36).slice(2,6).toUpperCase();var msg="नमस्ते, मैं अपॉइंटमेंट बुक करना चाहता/चाहती हूँ।\nबुकिंग ID: "+id+"\nनाम: "+n+"\nमोबाइल: "+p+"\nसमस्या: "+v("s")+"\nतारीख: "+d.value.split("-").reverse().join("/")+"\nसमय: "+v("t")+(v("m").trim()?"\nअन्य: "+v("m").trim():"");
  var u="https://wa.me/"+NUM+"?text="+encodeURIComponent(msg);
- document.getElementById("wb").href=u;
+ var du="whatsapp://send?phone="+NUM+"&text="+encodeURIComponent(msg),wbE=document.getElementById("wb");wbE.href=MOB?du:u;wbE.target=MOB?"_self":"_blank";
  document.getElementById("wl").innerHTML='<a href="'+u+'" target="_blank" rel="noopener" style="color:var(--gr);font-weight:700">अगर WhatsApp न खुले तो यहाँ दबाइए</a>';
- showOk(id,n,p,u);
+ showOk(id,n,p,MOB?du:u,u);
  return true;
 }
 function esc(x){return String(x).replace(/[&<>"']/g,function(c){return"&#"+c.charCodeAt(0)+";"})}
 function cl(){document.getElementById("ok").style.display="none"}
-function showOk(id,n,p,u){document.getElementById("okid").textContent=id;document.getElementById("okd").innerHTML="<b>"+esc(n)+"</b><br>📞 "+esc(p)+"<br>🩺 "+esc(v("s"))+"<br>📅 "+d.value.split("-").reverse().join("/")+" • "+esc(v("t"));document.getElementById("okw").href=u;document.getElementById("ok").style.display="flex"}
+function showOk(id,n,p,u,w){document.getElementById("okid").textContent=id;document.getElementById("okd").innerHTML="<b>"+esc(n)+"</b><br>📞 "+esc(p)+"<br>🩺 "+esc(v("s"))+"<br>📅 "+d.value.split("-").reverse().join("/")+" • "+esc(v("t"));var ow=document.getElementById("okw");ow.href=u;ow.target=MOB?"_self":"_blank";document.getElementById("okf").href=w;document.getElementById("ok").style.display="flex"}
 </script>
 <script>if("serviceWorker"in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})})}</script>
 </body>
